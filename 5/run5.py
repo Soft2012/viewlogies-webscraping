@@ -6,10 +6,11 @@ from selenium.webdriver.support.ui import Select
 
 driver = Driver(uc=True)
 
-with open('pincode.csv', mode='r') as file:
+with open('pincode5.csv', mode='r') as file:
     reader = csv.reader(file)
     for row in reader:
         pin_code = row[0]
+        print(pin_code)
 
         driver.get("https://www.viewlogies.net/locate")
         input_boxs = driver.find_elements(By.CSS_SELECTOR, 'div.react-code-input > input')
@@ -17,12 +18,12 @@ with open('pincode.csv', mode='r') as file:
             input_box = input_boxs[k]
             input_box.send_keys(pin_code[k])
 
-        time.sleep(2)
+        time.sleep(1)
         try:
             submit_btn = driver.find_elements(By.CLASS_NAME, 'viewlogies-button')[0]
             submit_btn.click()
 
-            time.sleep(3)
+            time.sleep(1)
             try:
                 image_url = driver.find_element(By.CSS_SELECTOR, '.client-header img').get_attribute('src')
             except:
@@ -41,7 +42,7 @@ with open('pincode.csv', mode='r') as file:
                 service_date = ""
 
             result_data = [image_url, company_name, slug, current_page, pin_code, service_date]
-            with open('result.csv', mode='a', newline='', encoding='utf-8') as file:
+            with open('result5.csv', mode='a', newline='', encoding='utf-8') as file:
                 writer = csv.writer(file)
                 writer.writerow(result_data)
 
